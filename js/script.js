@@ -5,9 +5,21 @@ const todoCompleted = document.querySelector(".todo-completed");
 const headerButton = document.querySelector(".header-button");
 const todoRemove = document.querySelector(".todo-remove");
 
-const toDoData = [];
+let toDoData = [];
 
-const render = function () {
+const todoLoad = function () {
+  let result = JSON.parse(localStorage.getItem("Планы"));
+
+  if (result == null) {
+    result = [];
+  }
+
+  return result;
+};
+
+toDoData = todoLoad();
+
+function render() {
   todoList.innerHTML = "";
   todoCompleted.innerHTML = "";
   toDoData.forEach(function (item) {
@@ -38,7 +50,7 @@ const render = function () {
       render();
     });
   });
-};
+}
 
 todoControl.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -57,8 +69,6 @@ todoControl.addEventListener("submit", function (event) {
   headerInput.value = "";
 
   localStorage.setItem("Планы", JSON.stringify(toDoData));
-  let getStorage = localStorage.getItem("Планы");
-  getStorage = JSON.parse(getStorage);
 
   render();
 });
